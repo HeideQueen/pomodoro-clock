@@ -7,7 +7,7 @@ import { ArrowDownward, ArrowUpward } from '@material-ui/icons';
 
 const TimerSettings = ({
   type,
-  timeLeft,
+  sessionLength,
   breakLength,
   handleSettingsClick
 }) => {
@@ -23,7 +23,7 @@ const TimerSettings = ({
       </IconButton>
 
       <Typography id={`${type}-length`} display='inline'>
-        {type === 'break' ? breakLength : timeLeft}
+        {type === 'break' ? breakLength : sessionLength}
       </Typography>
 
       <IconButton
