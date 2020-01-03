@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import TimerSettings from './components/timer-settings/timer-settings.component';
 import TimerDisplay from './components/timer-display/timer-display.component';
@@ -12,6 +12,44 @@ import './App.css';
 const App = () => {
   const [sessionLength, setSessionLength] = useState(25);
   const [breakLength, setBreakLength] = useState(5);
+  const [isRunning, setIsRunning] = useState(false);
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    let countdown;
+
+    if (isRunning) {
+      const timer = sessionLength => {
+        const seconds = sessionLength * 60;
+        const now = Date.now();
+        const then = now + seconds * 1000;
+        displayTimeLeft(seconds);
+
+        countdown = setInterval(() => {
+          const secondsLeft = Math.round((then - Date.now()) / 1000);
+          if (secondsLeft < 0) {
+            clearInterval(countdown);
+            return;
+          }
+          displayTimeLeft(secondsLeft);
+        }, 1000);
+      };
+
+      function displayTimeLeft(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainderSeconds = seconds % 60;
+        setTimeLeft(
+          `${minutes < 10 ? '0' : ''}${minutes}:${
+            remainderSeconds < 10 ? '0' : ''
+          }${remainderSeconds}`
+        );
+      }
+
+      timer(sessionLength);
+    }
+
+    return () => clearInterval(countdown);
+  }, [isRunning, sessionLength]);
 
   const handleSettingsClick = type => {
     switch (type) {
@@ -37,8 +75,14 @@ const App = () => {
   };
 
   const handleReset = () => {
+    setIsRunning(false);
+    setTimeLeft('');
     setSessionLength(25);
     setBreakLength(5);
+  };
+
+  const handlePlayPause = () => {
+    setIsRunning(!isRunning);
   };
 
   return (
@@ -59,9 +103,12 @@ const App = () => {
         handleSettingsClick={handleSettingsClick}
       />
 
-      <TimerDisplay sessionLength={sessionLength} />
+      <TimerDisplay sessionLength={sessionLength} timeLeft={timeLeft} />
 
-      <TimerControls handleReset={handleReset} />
+      <TimerControls
+        handleReset={handleReset}
+        handlePlayPause={handlePlayPause}
+      />
     </Container>
   );
 };
