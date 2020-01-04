@@ -66,7 +66,6 @@ const App = () => {
       }
 
       timer(sessionLength);
-      console.log(onBreak);
     }
 
     return () => clearInterval(countdown);
