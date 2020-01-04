@@ -40,6 +40,11 @@ const App = () => {
 
         countdown = setInterval(() => {
           const secondsLeft = Math.round((then - Date.now()) / 1000);
+          if (secondsLeft === 0) {
+            const beep = document.getElementById('beep');
+            beep.currentTime = 0;
+            beep.play();
+          }
           if (secondsLeft < 0) {
             clearInterval(countdown);
             setOnBreak(!onBreak);
@@ -97,6 +102,10 @@ const App = () => {
     setTimeLeft('');
     setSessionLength(25);
     setBreakLength(5);
+
+    const beep = document.getElementById('beep');
+    beep.pause();
+    beep.currentTime = 0;
   };
 
   const handlePlayPause = () => {
@@ -111,14 +120,14 @@ const App = () => {
       </Typography>
 
       <TimerSettings
-        type='break'
-        breakLength={breakLength}
+        type='session'
+        sessionLength={sessionLength}
         handleSettingsClick={handleSettingsClick}
       />
 
       <TimerSettings
-        type='session'
-        sessionLength={sessionLength}
+        type='break'
+        breakLength={breakLength}
         handleSettingsClick={handleSettingsClick}
       />
 
@@ -132,6 +141,8 @@ const App = () => {
         handleReset={handleReset}
         handlePlayPause={handlePlayPause}
       />
+
+      <audio src='https://goo.gl/65cBl1' id='beep' />
     </Container>
   );
 };
