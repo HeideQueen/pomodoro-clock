@@ -5,9 +5,10 @@ import TimerDisplay from './components/timer-display/timer-display.component';
 import TimerControls from './components/timer-controls/timer-controls.component';
 
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-import './App.css';
+import './App.scss';
 
 const App = () => {
   const [sessionLength, setSessionLength] = useState(25);
@@ -113,33 +114,37 @@ const App = () => {
   };
 
   return (
-    <Container>
+    <Container maxWidth='xl' id='container'>
       <Typography variant='h2' align='center'>
         Queen's Pomodoro Clock
       </Typography>
 
-      <TimerSettings
-        type='session'
-        sessionLength={sessionLength}
-        handleSettingsClick={handleSettingsClick}
-      />
+      <Paper id='pomodoro-clock'>
+        <Paper id='timer-settings'>
+          <TimerSettings
+            type='session'
+            sessionLength={sessionLength}
+            handleSettingsClick={handleSettingsClick}
+          />
 
-      <TimerSettings
-        type='break'
-        breakLength={breakLength}
-        handleSettingsClick={handleSettingsClick}
-      />
+          <TimerSettings
+            type='break'
+            breakLength={breakLength}
+            handleSettingsClick={handleSettingsClick}
+          />
+        </Paper>
 
-      <TimerDisplay
-        sessionLength={sessionLength}
-        timeLeft={timeLeft}
-        onBreak={onBreak}
-      />
+        <TimerDisplay
+          sessionLength={sessionLength}
+          timeLeft={timeLeft}
+          onBreak={onBreak}
+        />
 
-      <TimerControls
-        handleReset={handleReset}
-        handlePlayPause={handlePlayPause}
-      />
+        <TimerControls
+          handleReset={handleReset}
+          handlePlayPause={handlePlayPause}
+        />
+      </Paper>
 
       <audio src='https://goo.gl/65cBl1' id='beep' />
     </Container>

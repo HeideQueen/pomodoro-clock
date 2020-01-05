@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { ArrowDownward, ArrowUpward } from '@material-ui/icons';
 
+import './timer-settings.styles.scss';
+
 const TimerSettings = ({
   type,
   sessionLength,
@@ -12,8 +14,10 @@ const TimerSettings = ({
   handleSettingsClick
 }) => {
   return (
-    <Paper>
-      <Typography id={`${type}-label`}>{type} length</Typography>
+    <Paper elevation={0} className='settings'>
+      <Typography variant='h4' id={`${type}-label`}>
+        {type} length
+      </Typography>
 
       <IconButton
         id={`${type}-decrement`}
